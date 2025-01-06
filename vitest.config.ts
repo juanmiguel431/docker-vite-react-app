@@ -9,6 +9,7 @@ export default mergeConfig(viteConfig, defineConfig({
       enabled: true,
       name: 'chromium',
       provider: 'playwright',
+      headless: true,
     },
   },
 }))
