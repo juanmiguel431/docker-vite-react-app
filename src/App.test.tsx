@@ -2,7 +2,7 @@ import { render } from 'vitest-browser-react'
 import { expect, test } from 'vitest';
 import App from './App.tsx';
 
-test('print Vite + React and increment counter', async () => {
+test('Print Vite + React and increment counter', async () => {
   const { getByText, container, getByRole } = render(<App/>);
   const element = getByText('Vite + React');
   await expect.element(element).toBeInTheDocument()
@@ -21,4 +21,21 @@ test('print Vite + React and increment counter', async () => {
   // await button.click();
   // await expect.element(getByText(/count is 1/i)).toBeInTheDocument()
 
+});
+
+test('Print Vite + React', async () => {
+  const { getByText, container, getByRole } = render(<App/>);
+  const element = getByText('Vite + React');
+  await expect.element(element).toBeInTheDocument()
+});
+
+test('Increment counter', async () => {
+  const { getByText, container, getByRole } = render(<App/>);
+
+  const button = container.querySelector('button[name="counter"]') as HTMLButtonElement;
+  expect(button).not.toBeNull();
+  expect(button).toHaveTextContent(/count is 0/i);
+  button.click();
+
+  await expect.element(getByText(/count is 1/i)).toBeInTheDocument()
 });

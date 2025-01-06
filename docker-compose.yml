@@ -1,4 +1,8 @@
 version: '3'
+
+volumes:
+  node_modules:
+
 services:
   web:
     build:
@@ -7,7 +11,17 @@ services:
     ports:
       - "3001:3001"
     volumes:
+      - node_modules:/usr/app/node_modules
+      - .:/usr/app
+    environment:
+      CHOKIDAR_USEPOLLING: true
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
       - /usr/app/node_modules
       - .:/usr/app
     environment:
       CHOKIDAR_USEPOLLING: true
+    command: ["npm", "run", "test"]
