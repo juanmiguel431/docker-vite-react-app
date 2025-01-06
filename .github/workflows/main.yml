@@ -8,7 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
       - name: Build the Docker image
-      - run: docker build -t juanmiguel431/docker-vite-react-app -f Dockerfile.test .
-      - run: docker run -e CI=true juanmiguel431/docker-vite-react-app npm run test:coverage
+        run: docker build -t juanmiguel431/docker-vite-react-app -f Dockerfile.test .
+
+      - name: Run tests with coverage
+        run: docker run -e CI=true juanmiguel431/docker-vite-react-app npm run test:coverage
