@@ -16,3 +16,18 @@ jobs:
 
       - name: Run tests with coverage
         run: docker run -e CI=true juanmiguel431/docker-vite-react-app npm run test:coverage
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: docker-vite-react-app
+          environment_name: docker-vite-react-app-env
+          existing_bucket_name: elasticbeanstalk-us-east-1-217447517696
+          region: us-east-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
